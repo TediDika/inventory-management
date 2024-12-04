@@ -47,4 +47,16 @@ class User extends Authenticatable implements MustVerifyEmail
             'password' => 'hashed',
         ];
     }
+
+    // Define the relationship for the products created by the user
+    public function productsCreated()
+    {
+        return $this->hasMany(Products::class, 'created_by');
+    }
+
+    // Define the relationship for the products updated by the user
+    public function productsUpdated()
+    {
+        return $this->hasMany(Products::class, 'updated_by');
+    }
 }
