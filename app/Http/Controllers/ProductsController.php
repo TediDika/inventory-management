@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Products;
 use App\Http\Requests\StoreProductsRequest;
 use App\Http\Requests\UpdateProductsRequest;
+use App\Http\Resources\ProductsResource;
 
 class ProductsController extends Controller
 {
@@ -13,7 +14,13 @@ class ProductsController extends Controller
      */
     public function index()
     {
-        //
+        $query = Products::query();
+
+        $products = $query->paginate(10)->onEachSide(1);
+
+        return inertia("Products/Index", [
+            "products" => ProductsResource::collection($products),
+        ]);
     }
 
     /**
