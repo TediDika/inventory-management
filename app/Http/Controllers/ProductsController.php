@@ -16,6 +16,9 @@ class ProductsController extends Controller
     {
         $query = Products::query();
 
+        $sortField = request("sort_field", "created_at");
+        $sortDirection = request("sort_direction", "desc");
+
         if (request("name")) {
             $query->where("name","like","%".request("name")."%");
         }
@@ -23,7 +26,8 @@ class ProductsController extends Controller
             $query->where("category", request("category"));
         }
 
-        $products = $query->paginate(10)->onEachSide(1);
+        $products = $query->orderBy($sortField, $sortDirection)
+        ->paginate(10)->onEachSide(1);
 
         return inertia("Products/Index", [
             "products" => ProductsResource::collection($products),
