@@ -16,10 +16,18 @@ class ProductsController extends Controller
     {
         $query = Products::query();
 
+        if (request("name")) {
+            $query->where("name","like","%".request("name")."%");
+        }
+        if (request("category")) {
+            $query->where("category", request("category"));
+        }
+
         $products = $query->paginate(10)->onEachSide(1);
 
         return inertia("Products/Index", [
             "products" => ProductsResource::collection($products),
+            "queryParams" => request()->query() ?: null,
         ]);
     }
 
