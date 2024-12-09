@@ -91,8 +91,23 @@ class ProductsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Products $products)
+    public function destroy($id)
     {
-        //
+        //logger("Delete request received for product: " . ($products->id ?? 'unknown'));
+        //$name = $products->name;
+        
+            $product = Products::find($id);
+
+            if (!$product) {
+                return to_route("products.index")
+                    ->with("success", "Product was NOT deleted.");
+            }
+
+            $name = $product->name;
+
+            $product->delete();
+
+            return to_route("products.index")
+                    ->with("success", "Product \"$name\" was deleted.");
     }
 }

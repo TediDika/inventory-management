@@ -63,6 +63,14 @@ export default function Index({ auth, products, queryParams = null, success }){
         router.get(route("products.index"), queryParams);
     }
 
+    const deleteProduct = (product) => {
+        if(!window.confirm("Confirm Deletion?")){
+            return;
+        }
+        console.log("Deleting product with ID:", product.id);
+        router.delete(route("products.destroy", product.id));
+    };
+
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -197,17 +205,18 @@ export default function Index({ auth, products, queryParams = null, success }){
                                         {category_map[product.category]}
                                     </span>
                                 </td>
-                                <td className="px-3 py-2">{product.created_at}</td>
+                                <td className="px-3 py-2 text-nowrap">{product.created_at}</td>
                                 <td className="px-3 py-2">{product.createdBy.name}</td>
-                                <td className="px-3 py-2">
+                                <td className="px-3 py-2 text-nowrap">
                                     <Link href={route("products.edit", product.id)} 
                                     className="font-medium text-blue-600 hover:underline mx-1">
                                     Edit
                                     </Link>
-                                    <Link href={route("products.destroy", product.id)} 
-                                    className="font-medium text-red-600 hover:underline mx-1">
-                                    Delete
-                                    </Link>
+                                    <button 
+                                        onClick={(e) => deleteProduct(product)}
+                                        className="font-medium text-red-600 hover:underline mx-1">
+                                        Delete
+                                    </button>
                                 </td>
                             </tr>
                             ))}
