@@ -18,6 +18,7 @@ class ProductsFactory extends Factory
     public function definition(): array
     {
         return [
+            'image_path' => fake()->imageUrl(),
             'name' => fake()->word(), // Random word for product name
             'price' => fake()->randomFloat(2, 1, 1000), // Random price between 1 and 1000
             'stock' => fake()->numberBetween(0, 500), // Random stock value

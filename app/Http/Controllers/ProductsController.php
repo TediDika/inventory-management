@@ -6,6 +6,8 @@ use App\Models\Products;
 use App\Http\Requests\StoreProductsRequest;
 use App\Http\Requests\UpdateProductsRequest;
 use App\Http\Resources\ProductsResource;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class ProductsController extends Controller
 {
@@ -32,6 +34,7 @@ class ProductsController extends Controller
         return inertia("Products/Index", [
             "products" => ProductsResource::collection($products),
             "queryParams" => request()->query() ?: null,
+            "success" => session("success"),
         ]);
     }
 
@@ -40,7 +43,7 @@ class ProductsController extends Controller
      */
     public function create()
     {
-        //
+        return inertia("Products/Create");
     }
 
     /**
@@ -48,7 +51,17 @@ class ProductsController extends Controller
      */
     public function store(StoreProductsRequest $request)
     {
-        //
+        $data = $request->validated();
+        $image = $data["image"] ?? null;
+        $data["created_by"] = Auth::id();
+        $data["updated_by"] = Auth::id();
+        if($image) {
+            $data["image_path"] = $image->store("product/" . $data["name"], "public");
+        }
+        Products::create($data);
+
+        return to_route("products.index")
+            ->with("success", "Product was created");
     }
 
     /**

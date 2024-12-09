@@ -3,7 +3,6 @@ import SelectInput from "@/Components/SelectInput";
 import TextInput from "@/Components/TextInput";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, router } from "@inertiajs/react";
-import { ChevronUpIcon, ChevronDownIcon } from "@heroicons/react/16/solid";
 import TableHeading from "@/Components/TableHeading";
 
 const pop_map = {
@@ -28,7 +27,7 @@ const category_map = {
 
 
 
-export default function Index({ auth, products, queryParams = null }){
+export default function Index({ auth, products, queryParams = null, success }){
 
     queryParams = queryParams || {}
     const searchFieldChanged = (name, value) => {
@@ -68,13 +67,27 @@ export default function Index({ auth, products, queryParams = null }){
         <AuthenticatedLayout
             user={auth.user}
             header={
-                <h1 className="text-white">Products</h1>
+                <div className="flex justify-between items-center">
+                    <h1 className="text-white">Products</h1>
+
+                    <Link href={route("products.create")} className="bg-emerald-500 py-1 px-3 text-white rounded
+                    shadow transition-all hover:bg-emerald-600">
+                    Add New Product
+                    </Link>
+                </div>
             }
         >
             <Head title="Products" />
 
+            
+
             <div className="py-12">
                 <div className="p-6 w-full text-black-400 bg-slate-700">
+                {success && (
+                    <div className="bg-emerald-500 py-2 px-4 mb-2 text-white rounded">
+                        {success}
+                    </div>
+                )}
                  <div className="overflow-auto">
                     <table className=" bg-gray-700 rounded border-collapse border border-gray-300 mx-auto">
                         <thead className="text-white">
@@ -86,6 +99,7 @@ export default function Index({ auth, products, queryParams = null }){
                                     sortChanged={sortChanged}>
                                         ID
                                 </TableHeading>
+                                <th className="px-3 py-2">Image</th>
                                 <TableHeading 
                                     name="name"
                                     sort_field={queryParams.sort_field}
@@ -129,6 +143,7 @@ export default function Index({ auth, products, queryParams = null }){
                         <thead className="text-white">
                             <tr className="text-left border-b">
                                 <th className="px-3 py-2"></th>
+                                <th className="px-3 py-2"></th>
                                 <th className="px-3 py-2">
                                     <TextInput 
                                     className="w-full"
@@ -164,6 +179,9 @@ export default function Index({ auth, products, queryParams = null }){
                             {products.data.map((product) => ( 
                             <tr className="border-b" key={product.id}>
                                 <td className="px-3 py-2">{product.id}</td>
+                                <td className="px-3 py-2">
+                                    <img src={product.image_path} className="w-[50px] h-[50px] object-cover" alt="Product" />
+                                </td>
                                 <td className="px-3 py-2">{product.name}</td>
                                 <td className="px-3 py-2">{product.price}</td>
                                 <td className="px-3 py-2">{product.stock}</td>

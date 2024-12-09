@@ -10,6 +10,9 @@ class Products extends Model
     /** @use HasFactory<\Database\Factories\ProductsFactory> */
     use HasFactory;
 
+    protected $fillable = ["image_path", "name", "price", "stock", "category", "popularity",
+    "created_by", "updated_by"];
+
     // Define the relationship for the user who created the product
     public function createdBy()
     {
