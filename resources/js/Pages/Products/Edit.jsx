@@ -5,21 +5,23 @@ import TextInput from "@/Components/TextInput";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, useForm } from "@inertiajs/react";
 
-export default function Create({ auth }) {
-    const {data, setData, post, errors, reset} = useForm({
+export default function Edit({ auth, product }) {
+    const {data, setData, put, errors, reset} = useForm({
         image: "",
-        name: "",
-        price: "",
-        stock: "",
-        category: "",
-        popularity: "",
+        name: product.data.name || "",
+        price: product.data.price || "",
+        stock: product.data.stock || "",
+        category: product.data.category || "",
+        popularity: product.data.popularity || "",
     })
 
     const onSubmit = (e) => {
         e.preventDefault();
 
-        post(route("products.store"))
+        put(route("products.update", product.data.id))
     }
+
+
 
     return (
         <AuthenticatedLayout 
@@ -27,7 +29,7 @@ export default function Create({ auth }) {
         header={
             <div className="flex justify-between items-center">
                 <h1 className="text-white">
-                    Create New Product
+                    Edit Product "{product.data.name}"
                 </h1>
             </div>
         }>
@@ -39,6 +41,14 @@ export default function Create({ auth }) {
                     <form 
                     onSubmit={onSubmit}
                     className="p-4 sm:p-8 shadow sm:rounded-lg">
+                        
+                        {product.data.image_path && (
+
+                            <div className="mb-4 text-white">
+                                Current Image:
+                                <img src={product.data.image_path} className="w-64" />
+                            </div>
+                        )}
                         <div>
                             <InputLabel htmlFor="product_image_path" value="Product Image"/>
                             <TextInput 

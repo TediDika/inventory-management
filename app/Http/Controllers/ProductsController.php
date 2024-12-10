@@ -7,6 +7,7 @@ use App\Http\Requests\StoreProductsRequest;
 use App\Http\Requests\UpdateProductsRequest;
 use App\Http\Resources\ProductsResource;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class ProductsController extends Controller
@@ -61,7 +62,7 @@ class ProductsController extends Controller
         Products::create($data);
 
         return to_route("products.index")
-            ->with("success", "Product was created");
+            ->with("success", "Product was created!");
     }
 
     /**
@@ -75,9 +76,19 @@ class ProductsController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Products $products)
+    public function edit($id)
     {
-        //
+        $product = Products::find($id);
+
+        if (!$product) {
+            return to_route("products.index")
+                ->with("error", "Product not found.");
+        }
+        //logger("Edit request received for product: " . ($product ?? 'unknown'));
+
+        return inertia("Products/Edit", [
+            "product" => new ProductsResource($product),
+        ]);
     }
 
     /**
@@ -85,7 +96,19 @@ class ProductsController extends Controller
      */
     public function update(UpdateProductsRequest $request, Products $products)
     {
-        //
+        $data = $request->validated();
+        $image = $data["image"] ?? null;
+        $data["updated_by"] = Auth::id();
+        if($image) {
+            if($products->image_path) {
+                Storage::disk("public")->delete($products->image_path);
+            }
+            $data["image_path"] = $image->store("product/" . $data["name"], "public");
+        }
+        $products->update($data);
+
+        return to_route("products.index")
+            ->with("success", "Product \"$products->name\" was updated!");
     }
 
     /**
@@ -106,8 +129,11 @@ class ProductsController extends Controller
             $name = $product->name;
 
             $product->delete();
+            if($product->image_path) {
+                Storage::disk("public")->delete(dirname($product->image_path));
+            }
 
             return to_route("products.index")
-                    ->with("success", "Product \"$name\" was deleted.");
+                    ->with("success", "Product \"$name\" was deleted!");
     }
 }
