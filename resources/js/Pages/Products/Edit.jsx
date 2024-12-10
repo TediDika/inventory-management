@@ -6,19 +6,20 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, useForm } from "@inertiajs/react";
 
 export default function Edit({ auth, product }) {
-    const {data, setData, put, errors, reset} = useForm({
+    const {data, setData, post, errors, reset} = useForm({
         image: "",
         name: product.data.name || "",
         price: product.data.price || "",
         stock: product.data.stock || "",
         category: product.data.category || "",
         popularity: product.data.popularity || "",
+        _method: "PUT",
     })
 
     const onSubmit = (e) => {
         e.preventDefault();
 
-        put(route("products.update", product.data.id))
+        post(route("products.update", product.data.id))
     }
 
 
@@ -106,6 +107,7 @@ export default function Edit({ auth, product }) {
                             <SelectInput
                                 name="popularity"
                                 id="product_pop"
+                                value={data.popularity}
                                 className="mt-1 block w-full"
                                 onChange={(e) => setData("popularity", e.target.value)}
                             >
@@ -124,6 +126,7 @@ export default function Edit({ auth, product }) {
                             <SelectInput
                                 name="category"
                                 id="product_cat"
+                                value={data.category}
                                 className="mt-1 block w-full"
                                 onChange={(e) => setData("category", e.target.value)}
                             >

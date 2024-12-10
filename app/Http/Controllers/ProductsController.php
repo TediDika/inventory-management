@@ -94,21 +94,29 @@ class ProductsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateProductsRequest $request, Products $products)
+    public function update(UpdateProductsRequest $request, $id)
     {
+
+        $product = Products::find($id);
+
+        if (!$product) {
+            return to_route("products.index")
+                ->with("error", "Product not found.");
+        }
+
         $data = $request->validated();
         $image = $data["image"] ?? null;
         $data["updated_by"] = Auth::id();
         if($image) {
-            if($products->image_path) {
-                Storage::disk("public")->delete($products->image_path);
+            if($product->image_path) {
+                Storage::disk("public")->deleteDirectory(dirname($product->image_path));
             }
             $data["image_path"] = $image->store("product/" . $data["name"], "public");
         }
-        $products->update($data);
+        $product->update($data);
 
         return to_route("products.index")
-            ->with("success", "Product \"$products->name\" was updated!");
+            ->with("success", "Product \"$product->name\" was updated!");
     }
 
     /**
@@ -123,14 +131,15 @@ class ProductsController extends Controller
 
             if (!$product) {
                 return to_route("products.index")
-                    ->with("success", "Product was NOT deleted.");
+                    ->with("error", "Product not found.");
             }
 
             $name = $product->name;
 
             $product->delete();
             if($product->image_path) {
-                Storage::disk("public")->delete(dirname($product->image_path));
+                logger("Delete request for directory: " . ($product->image_path ?? 'unknown'));
+                Storage::disk("public")->deleteDirectory(dirname($product->image_path));
             }
 
             return to_route("products.index")

@@ -24,11 +24,11 @@ class UpdateProductsRequest extends FormRequest
     {
         return [
             "image" => ["nullable", "image"],
-            "name" => ["nullable", "max:255"],
-            "price" => ["nullable", "min:0", "max:1000000"],
-            "stock" => ["nullable", "min:0", "max:1000000"],
-            "popularity" => ["nullable", Rule::in(["low", "medium", "high"])],
-            "category" => ["nullable", Rule::in(["electronics", "clothing", "beauty", "appliances", "automotive"])],
+            "name" => ["required", "max:255"],
+            "price" => ["required", "min:0", "max:1000000"],
+            "stock" => ["required", "min:0", "max:1000000"],
+            "popularity" => ["required", Rule::in(["low", "medium", "high"])],
+            "category" => ["required", Rule::in(["electronics", "clothing", "beauty", "appliances", "automotive"])],
         ];
     }
 }
