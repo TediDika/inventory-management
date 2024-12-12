@@ -8,7 +8,6 @@ use App\Http\Requests\UpdateProductsRequest;
 use App\Http\Resources\ProductsResource;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 
 class ProductsController extends Controller
 {
@@ -76,16 +75,8 @@ class ProductsController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit($id)
+    public function edit(Products $product)
     {
-        $product = Products::find($id);
-
-        if (!$product) {
-            return to_route("products.index")
-                ->with("error", "Product not found.");
-        }
-        //logger("Edit request received for product: " . ($product ?? 'unknown'));
-
         return inertia("Products/Edit", [
             "product" => new ProductsResource($product),
         ]);
@@ -94,15 +85,8 @@ class ProductsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateProductsRequest $request, $id)
+    public function update(UpdateProductsRequest $request, Products $product)
     {
-
-        $product = Products::find($id);
-
-        if (!$product) {
-            return to_route("products.index")
-                ->with("error", "Product not found.");
-        }
 
         $data = $request->validated();
         $image = $data["image"] ?? null;
@@ -122,23 +106,14 @@ class ProductsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function destroy(Products $product)
     {
         //logger("Delete request received for product: " . ($products->id ?? 'unknown'));
-        //$name = $products->name;
         
-            $product = Products::find($id);
-
-            if (!$product) {
-                return to_route("products.index")
-                    ->with("error", "Product not found.");
-            }
-
             $name = $product->name;
 
             $product->delete();
             if($product->image_path) {
-                logger("Delete request for directory: " . ($product->image_path ?? 'unknown'));
                 Storage::disk("public")->deleteDirectory(dirname($product->image_path));
             }
 

@@ -8,18 +8,18 @@ import { Head, Link, useForm } from "@inertiajs/react";
 export default function Edit({ auth, product }) {
     const {data, setData, post, errors, reset} = useForm({
         image: "",
-        name: product.data.name || "",
-        price: product.data.price || "",
-        stock: product.data.stock || "",
-        category: product.data.category || "",
-        popularity: product.data.popularity || "",
+        name: product.name || "",
+        price: product.price || "",
+        stock: product.stock || "",
+        category: product.category || "",
+        popularity: product.popularity || "",
         _method: "PUT",
     })
 
     const onSubmit = (e) => {
         e.preventDefault();
 
-        post(route("products.update", product.data.id))
+        post(route("products.update", product.id))
     }
 
 
@@ -30,7 +30,7 @@ export default function Edit({ auth, product }) {
         header={
             <div className="flex justify-between items-center">
                 <h1 className="text-white">
-                    Edit Product "{product.data.name}"
+                    Edit Product "{product.name}"
                 </h1>
             </div>
         }>
@@ -43,11 +43,11 @@ export default function Edit({ auth, product }) {
                     onSubmit={onSubmit}
                     className="p-4 sm:p-8 shadow sm:rounded-lg">
                         
-                        {product.data.image_path && (
+                        {product.image_path && (
 
                             <div className="mb-4 text-white">
                                 Current Image:
-                                <img src={product.data.image_path} className="w-64" />
+                                <img src={product.image_path} className="w-64" />
                             </div>
                         )}
                         <div>

@@ -19,8 +19,8 @@ return new class extends Migration
             $table->unsignedInteger('stock')->default(0);
             $table->enum('category', ['electronics', 'clothing', 'beauty', 'appliances', 'automotive'])->nullable();
             $table->enum('popularity', ['low', 'medium', 'high'])->default('low');
-            $table->foreignId('created_by')->constrained('users');
-            $table->foreignId('updated_by')->constrained('users');
+            $table->foreignId('created_by')->constrained('users')->onDelete('cascade');
+            $table->foreignId('updated_by')->constrained('users')->onDelete('cascade');
             $table->timestamps();
         });
     }
