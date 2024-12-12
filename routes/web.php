@@ -11,9 +11,8 @@ use Inertia\Inertia;
 Route::redirect('/', '/dashboard');
 
 Route::middleware(['auth', 'verified'])->group(function() {
-    Route::get('/dashboard', fn() => Inertia::render('Dashboard'))
-        ->name('dashboard');
-
+    Route::get("/dashboard", [ProductsController::class, "myProducts"])
+        ->name("dashboard");
     Route::resource('products', ProductsController::class);
     Route::resource('user', UserController::class);
 

@@ -191,7 +191,7 @@ export default function Index({ auth, products, queryParams = null, success }){
                                     <img src={product.image_path} className="w-[50px] h-[50px] object-cover" alt="Product" />
                                 </td>
                                 <td className="px-3 py-2">{product.name}</td>
-                                <td className="px-3 py-2">{product.price}</td>
+                                <td className="px-3 py-2">${product.price}</td>
                                 <td className="px-3 py-2">{product.stock}</td>
                                 <td className="px-3 py-2">
                                     <span className={"px-2 py-1 rounded " + 
