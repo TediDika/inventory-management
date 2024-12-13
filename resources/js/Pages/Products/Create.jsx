@@ -26,7 +26,7 @@ export default function Create({ auth }) {
         user={auth.user}
         header={
             <div className="flex justify-between items-center">
-                <h1 className="text-white">
+                <h1 className="text-white text-2xl font-bold">
                     Create New Product
                 </h1>
             </div>
@@ -34,7 +34,7 @@ export default function Create({ auth }) {
         <Head title="Create New Product" />
 
         <div className="py-12">
-            <div className="p-6 w-full text-black-400 bg-slate-700">
+            <div className="p-6 max-w-[90rem] shadow-2xl rounded-lg mx-auto text-black-400 bg-teal-950">
                 <div className="overflow-auto">
                     <form 
                     onSubmit={onSubmit}
@@ -99,7 +99,7 @@ export default function Create({ auth }) {
                                 className="mt-1 block w-full"
                                 onChange={(e) => setData("popularity", e.target.value)}
                             >
-                                <option value="">Select Status</option>
+                                <option value="">Select Popularity</option>
                                 <option value="low">Low</option>
                                 <option value="medium">Medium</option>
                                 <option value="high">High</option>
@@ -117,7 +117,7 @@ export default function Create({ auth }) {
                                 className="mt-1 block w-full"
                                 onChange={(e) => setData("category", e.target.value)}
                             >
-                                <option value="">Select Status</option>
+                                <option value="">Select Category</option>
                                 <option value="electronics">Electronics</option>
                                 <option value="clothing">Clothing</option>
                                 <option value="beauty">Beauty</option>

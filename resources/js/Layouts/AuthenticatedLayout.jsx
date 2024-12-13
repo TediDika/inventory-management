@@ -19,7 +19,15 @@ export default function AuthenticatedLayout({ header, children }) {
                         <div className="flex">
                             <div className="flex shrink-0 items-center">
                                 <Link href="/">
-                                    <ApplicationLogo className="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
+                                    <svg 
+                                        className='block h-9 w-auto'
+                                        xmlns="http://www.w3.org/2000/svg" viewBox="-40 -40 80 80">
+                                        <circle r="39" />
+                                        <path fill="#fff" d="M0,38a38,38 0 0 1 0,-76a19,19 0 0 1 0,38a19,19 0 0 0 0,38" />
+                                        <circle r="5" cy="19" fill="#fff" />
+                                        <circle r="5" cy="-19" />
+                                    </svg>
+                                    
                                 </Link>
                             </div>
 
@@ -148,6 +156,24 @@ export default function AuthenticatedLayout({ header, children }) {
                             active={route().current('dashboard')}
                         >
                             Dashboard
+                        </ResponsiveNavLink>
+                    </div>
+
+                    <div className="space-y-1 pb-3 pt-2">
+                        <ResponsiveNavLink
+                            href={route('products.index')}
+                            active={route().current('products.index')}
+                        >
+                            Products
+                        </ResponsiveNavLink>
+                    </div>
+
+                    <div className="space-y-1 pb-3 pt-2">
+                        <ResponsiveNavLink
+                            href={route('user.index')}
+                            active={route().current('user.index')}
+                        >
+                            Users
                         </ResponsiveNavLink>
                     </div>
 

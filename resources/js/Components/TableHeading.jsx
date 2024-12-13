@@ -16,10 +16,10 @@ export default function TableHeading({
                         {sortable && (
                             <div>
                             <ChevronUpIcon className={"w-4 " + (sort_field === name
-                                && sort_direction === "asc" ? "text-blue-500" : "")
+                                && sort_direction === "asc" ? "text-sky-400" : "")
                             } />
                             <ChevronDownIcon className={"w-4 -mt-2 " + (sort_field === name
-                                && sort_direction === "desc" ? "text-blue-500" : "")
+                                && sort_direction === "desc" ? "text-sky-400" : "")
                             } />
                         </div>
                         )}

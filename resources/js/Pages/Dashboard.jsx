@@ -28,7 +28,7 @@ const category_map = {
 }
 
 
-export default function Dashboard({ auth, products, queryParams = null, success, stockCounts, popularityCounts, categoryCounts, totalInventoryValue }) {
+export default function Dashboard({ auth, products, queryParams = null, stockCounts, popularityCounts, categoryCounts, totalInventoryValue }) {
     
     queryParams = queryParams || {}
     const searchFieldChanged = (name, value) => {
@@ -37,7 +37,7 @@ export default function Dashboard({ auth, products, queryParams = null, success,
         } else {
             delete queryParams[name]
         }
-            router.get(route("products.myProducts"), queryParams);
+            router.get(route("dashboard"), queryParams);
         
     }
 
@@ -61,7 +61,7 @@ export default function Dashboard({ auth, products, queryParams = null, success,
             queryParams.sort_direction = "asc"
         }
         
-        router.get(route("products.myProducts"), queryParams);
+        router.get(route("dashboard"), queryParams);
     }
 
     const customTheme = createTheme({
@@ -88,7 +88,7 @@ export default function Dashboard({ auth, products, queryParams = null, success,
         <AuthenticatedLayout
             user={auth.user}
             header={
-                <h2 className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
+                <h2 className="text-white text-2xl font-bold leading-tight">
                     Dashboard
                 </h2>
             }
@@ -96,83 +96,92 @@ export default function Dashboard({ auth, products, queryParams = null, success,
             <Head title="Dashboard" />
                     
 
-                    <div className="bg-blue-300 p-6 rounded-lg shadow-lg">
-                        <p className="text-white">Total Inventory Value: </p>
-                        <p className="text-green-500">${totalInventoryValue}</p>
-                    </div>
-
-                    <div className="flex flex-row items-center justify-center">
-
-                    
-                        <ThemeProvider theme={customTheme}> 
-                        <BarChart
-                            xAxis={[{ scaleType: 'band', data: popularityCounts.map(item => item.category) }]}
-                            series={chartData}
-                            width={500}
-                            height={400}
-                            grid={{ horizontal: true }}
-                        />
-                        </ThemeProvider>
-
-                        <ThemeProvider theme={customTheme}>
-                            <PieChart
-                                series={[
-                                    {
-                                    data: categoryCounts.map(data => ({
-                                        label: data.category.charAt(0).toUpperCase() + data.category.slice(1),
-                                        value: data.total_count,
-                                    })),
-                                    highlightScope: { fade: 'global', highlight: 'item' },
-                                    faded: { innerRadius: 30, additionalRadius: -30, color: 'gray' },
-                                    },
-                                ]}
-                                width={500}
-                                height={300}
-                                
-                            />
-                        </ThemeProvider>
-
-                        
-                        <ThemeProvider theme={customTheme}> 
-                            <BarChart
-                                dataset={stockCounts.map(data => ({
-                                    category: data.category.charAt(0).toUpperCase() + data.category.slice(1),
-                                    total_count: Number(data.total_count),
-                                }))}
-                                yAxis={[
-                                    { scaleType: 'band', dataKey: 'category', },
-                                ]}
-                                xAxis={[
-                                    { scaleType: 'linear', label: 'Stock Quantity' },
-                                ]}
-                                series={[
-                                    { dataKey: 'total_count', label: 'Total Stock Quantity' },
-                                ]}
-                                layout="horizontal"
-                                width={500}
-                                height={400}
-                                grid={{ vertical: true}}
-                                
-                            />
-                        </ThemeProvider>
-                    </div>
-
-
-
-                    <div className="bg-blue-300 p-6 rounded-lg shadow-lg">My Products</div>
-
-
-                    
-                    <div className="py-12">
-                    <div className="p-6 w-full text-black-400 bg-slate-700">
-                    {success && (
-                        <div className="bg-emerald-500 py-2 px-4 mb-2 text-white rounded">
-                            {success}
+                    <div className="mx-auto max-w-[40rem] bg-slate-700 p-2 mt-[2.5rem] rounded-lg shadow-2xl flex items-center justify-center">
+                        <div className="w-[40rem] bg-sky-950 rounded-lg text-center">
+                            <p className="text-white font-extrabold text-[2rem]">Total Inventory Value: </p>
+                            <p className="text-green-500 font-extrabold text-[1.75rem]">${totalInventoryValue}</p>
                         </div>
-                    )}
+                    </div>
+
+                    <div className="flex flex-row items-center justify-evenly mt-[2.5rem] flex-wrap gap-8">
+
+                        <div className="flex flex-col items-center"> 
+                            <h3 className="text-white text-lg font-bold mb-2">Product Popularity Per Category </h3>
+                            <ThemeProvider theme={customTheme}> 
+                                <BarChart
+                                    xAxis={[{ scaleType: 'band', data: popularityCounts.map(item => item.category) }]}
+                                    series={chartData}
+                                    width={500}
+                                    height={400}
+                                    grid={{ horizontal: true }}
+                                />
+                            </ThemeProvider>
+                        </div>
+
+                        <div className="flex flex-col items-center"> 
+                            <h3 className="text-white text-lg font-bold mb-2">Total Products Per Category</h3>
+                            <ThemeProvider theme={customTheme}>
+                                <PieChart
+                                    series={[
+                                        {
+                                        data: categoryCounts.map(data => ({
+                                            label: data.category.charAt(0).toUpperCase() + data.category.slice(1),
+                                            value: data.total_count,
+                                        })),
+                                        highlightScope: { fade: 'global', highlight: 'item' },
+                                        faded: { innerRadius: 30, additionalRadius: -30, color: 'gray' },
+                                        outerRadius: 150,
+                                        },
+                                    ]}
+                                    width={500}
+                                    height={400}
+                                    
+                                />
+                            </ThemeProvider>
+                        </div>
+                        
+                        <div className="flex flex-col items-center"> 
+                            <h3 className="text-white text-lg font-bold mb-2">Total Stock Quantity Per Category</h3>
+                            <ThemeProvider theme={customTheme}> 
+                                <BarChart
+                                    dataset={stockCounts.map(data => ({
+                                        category: data.category.charAt(0).toUpperCase() + data.category.slice(1),
+                                        total_count: Number(data.total_count),
+                                    }))}
+                                    yAxis={[
+                                        { scaleType: 'band', dataKey: 'category', },
+                                    ]}
+                                    xAxis={[
+                                        { scaleType: 'linear', label: 'Stock Quantity' },
+                                    ]}
+                                    series={[
+                                        { dataKey: 'total_count', },
+                                    ]}
+                                    layout="horizontal"
+                                    width={500}
+                                    height={400}
+                                    grid={{ vertical: true}}
+                                    margin={ {bottom: 50, left: 80, right: 40, top: 50} }
+                                    
+                                />
+                            </ThemeProvider>
+                        </div>
+
+                    </div>
+
+
+                    <div className="w-full flex items-center justify-center pt-20 p-1">
+                        <h2 className="text-white text-2xl font-bold leading-tight">
+                            My Products
+                        </h2>
+                    </div>
+
+                    
+                    <div className="py-6">
+                    <div className="p-6 max-w-[70rem] shadow-2xl rounded-lg mx-auto text-black-400 bg-slate-700">
                      <div className="overflow-auto">
                         <table className=" bg-gray-700 rounded border-collapse border border-gray-300 mx-auto">
-                            <thead className="text-white">
+                            <thead className="text-white bg-sky-950">
                                 <tr className="text-left">
                                     <TableHeading 
                                         name="id"
@@ -220,7 +229,7 @@ export default function Dashboard({ auth, products, queryParams = null, success,
                                     </TableHeading>
                                 </tr>
                             </thead>
-                            <thead className="text-white">
+                            <thead className="text-white bg-sky-950">
                                 <tr className="text-left border-b">
                                     <th className="px-3 py-2"></th>
                                     <th className="px-3 py-2"></th>
@@ -239,7 +248,7 @@ export default function Dashboard({ auth, products, queryParams = null, success,
                                     <th className="px-3 py-2">
                                         <SelectInput 
                                         className="w-full"
-                                        defaultValue={queryParams.status} 
+                                        defaultValue={queryParams.category} 
                                         onChange={e => searchFieldChanged('category', e.target.value)}
                                         >
                                             <option value="">Select Category</option>

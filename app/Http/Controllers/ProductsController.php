@@ -212,7 +212,6 @@ class ProductsController extends Controller
         return inertia("Dashboard", [
             "products" => ProductsResource::collection($products),
             "queryParams" => request()->query() ?: null,
-            "success" => session("success"),
             "stockCounts" => $stockCounts,
             "categoryCounts" => $categoryCounts,
             "popularityCounts" => $formattedData,

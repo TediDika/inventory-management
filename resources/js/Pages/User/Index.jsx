@@ -76,7 +76,7 @@ export default function Index({ auth, users, queryParams = null, success }){
             user={auth.user}
             header={
                 <div className="flex justify-between items-center">
-                    <h1 className="text-white">Users</h1>
+                    <h1 className="text-white text-2xl font-bold">Users</h1>
 
                     <Link href={route("user.create")} className="bg-emerald-500 py-1 px-3 text-white rounded
                     shadow transition-all hover:bg-emerald-600">
@@ -90,15 +90,15 @@ export default function Index({ auth, users, queryParams = null, success }){
             
 
             <div className="py-12">
-                <div className="p-6 w-full text-black-400 bg-slate-700">
+                <div className="p-6 max-w-[53rem] shadow-2xl rounded-lg mx-auto text-black-400 bg-slate-700">
                 {success && (
-                    <div className="bg-emerald-500 py-2 px-4 mb-2 text-white rounded">
+                    <div className="bg-emerald-500 max-w-[49rem] mx-auto py-2 px-4 mb-4 text-white rounded">
                         {success}
                     </div>
                 )}
                  <div className="overflow-auto">
                     <table className=" bg-gray-700 rounded border-collapse border border-gray-300 mx-auto">
-                        <thead className="text-white">
+                        <thead className="text-white bg-sky-950">
                             <tr className="text-left">
                                 <TableHeading 
                                     name="id"
@@ -125,7 +125,7 @@ export default function Index({ auth, users, queryParams = null, success }){
                                 <th className="px-3 py-2 text-right">Actions</th>
                             </tr>
                         </thead>
-                        <thead className="text-white">
+                        <thead className="text-white bg-sky-950">
                             <tr className="text-left border-b">
                                 <th className="px-3 py-2"></th>
                                 <th className="px-3 py-2">

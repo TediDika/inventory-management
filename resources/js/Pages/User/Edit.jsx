@@ -28,7 +28,7 @@ export default function Edit({ auth, user }) {
         user={auth.user}
         header={
             <div className="flex justify-between items-center">
-                <h1 className="text-white">
+                <h1 className="text-white text-2xl font-bold">
                     Edit User "{user.name}"
                 </h1>
             </div>
@@ -36,7 +36,7 @@ export default function Edit({ auth, user }) {
         <Head title="Create New User" />
 
         <div className="py-12">
-            <div className="p-6 w-full text-black-400 bg-slate-700">
+            <div className="p-6 max-w-[90rem] shadow-2xl rounded-lg mx-auto text-black-400 bg-indigo-950">
                 <div className="overflow-auto">
                     <form 
                     onSubmit={onSubmit}
