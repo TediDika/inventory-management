@@ -1,8 +1,11 @@
 # Inventory Management App
 
+Product Management App designed to streamline product tracking and provide a clean overview of data through chart graphics.
+
 [Link to Demo](https://drive.google.com/file/d/177muuZs2ThuddbFNbWGzN8y_DQyJMgaw/view?usp=drive_link)
 
-Product Management App designed to streamline product tracking and provide a clean overview of data through chart graphics.
+## Dashboard Page:
+![Dashboard](dashboard.png)
 
 ## Frontend: 
 Built using React with a visually rich interface styled with Tailwind CSS. Utilized Mui X for data visualization through charts.
