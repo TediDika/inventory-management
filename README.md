@@ -1,5 +1,7 @@
 # Inventory Management App
 
+[Link to Demo](https://drive.google.com/file/d/177muuZs2ThuddbFNbWGzN8y_DQyJMgaw/view?usp=drive_link)
+
 Product Management App designed to streamline product tracking and provide a clean overview of data through chart graphics.
 
 ## Frontend: 
