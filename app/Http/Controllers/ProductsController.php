@@ -125,7 +125,6 @@ class ProductsController extends Controller
 
     public function myProducts()
     {
-        logger("My Products list: ");
         $user_id = Auth::id();
         $query = Products::query()->where("created_by", $user_id);
 

@@ -99,7 +99,8 @@ export default function Dashboard({ auth, products, queryParams = null, stockCou
                     <div className="mx-auto max-w-[40rem] bg-slate-700 p-2 mt-[2.5rem] rounded-lg shadow-2xl flex items-center justify-center">
                         <div className="w-[40rem] bg-sky-950 rounded-lg text-center">
                             <p className="text-white font-extrabold text-[2rem]">Total Inventory Value: </p>
-                            <p className="text-green-500 font-extrabold text-[1.75rem]">${totalInventoryValue}</p>
+                            <p className="text-green-500 font-extrabold text-[1.75rem]">
+                                ${new Intl.NumberFormat('en-US', { maximumFractionDigits: 2 }).format(totalInventoryValue)}</p>
                         </div>
                     </div>
 

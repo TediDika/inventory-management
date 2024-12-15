@@ -16,29 +16,49 @@ class DatabaseSeeder extends Seeder
     {
 
         User::factory()->create([
-            'name' => 'Tedi',
-            'email' => 'Tedi@example.com',
+            'name' => 'Tedi Dika',
+            'email' => 'tedi@example.com',
             'password' => bcrypt('12345678'),
             'email_verified_at' => time()
         ]);
 
-        $users = User::factory(6)->create();
+        User::factory()->create([
+            'name' => 'Alejandro Diaz',
+            'email' => 'alejandro@example.com',
+            'password' => bcrypt('12345678'),
+            'email_verified_at' => time()
+        ]);
+
+        User::factory()->create([
+            'name' => 'Yubin Lim',
+            'email' => 'yubin@example.com',
+            'password' => bcrypt('12345678'),
+            'email_verified_at' => time()
+        ]);
+
+        $users = User::factory(20)->create();
 
         if ($users->isEmpty()) {
             echo "No users were created.\n";
         } else {
-            echo "6 users were created.\n";
+            echo "20 users were created.\n";
         }
 
-        // Create 25 products and randomly assign them to the users
-        Products::factory()
-            ->count(25)
-            ->create(function () use ($users) {
-                $randomUser = $users->random();
-                return [
-                    'created_by' => $randomUser->id,
-                    'updated_by' => $randomUser->id,
-                ];
-            });
+        // Create 100 products and randomly assign them to the users
+        $products = Products::factory()
+                        ->count(100)
+                        ->create(function () use ($users) {
+                            $randomUser = $users->random();
+                            return [
+                                'created_by' => $randomUser->id,
+                                'updated_by' => $randomUser->id,
+                            ];
+                        });
+
+        if ($products->isEmpty()) {
+            echo "No products were created.\n";
+        } else {
+            echo "100 products were created.\n";
+        }
     }
 }
